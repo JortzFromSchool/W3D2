@@ -4,7 +4,7 @@ class Card
         @face = "down"
     end
 
-    attr_reader :face_value, :face
+    attr_accessor :face_value, :face
 
     def display
         if @face == "up"

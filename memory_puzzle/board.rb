@@ -42,7 +42,7 @@ class Board
 
     def render
         #topline
-        print " "
+        print "  "
         (0...@size).each do |num|
             print "#{num} "
         end
@@ -66,5 +66,21 @@ class Board
             end
         end
         return true
+    end
+
+    def reveal(guessed_pos)
+        row, col = guessed_pos
+        if @grid[row][col].face == 'down'
+            @grid[row][col].reveal
+        end
+        return @grid[row][col].face_value
+    end
+
+    def [](pos)
+        return @grid[pos[0]][pos[1]]
+    end
+
+    def []=(pos, other_position)
+        @grid[pos[0]][pos[1]] == other_position
     end
 end
