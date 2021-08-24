@@ -25,16 +25,18 @@ class ComputerPlayer
 
     def get_position(previous_guess)
         if previous_guess == nil
-            if @matched_cards.length > 0
+            if @matched_cards.length > @matched_keys.length
                 puts "case 1: matched cards detected"
                 match = @matched_cards.keys
                 i = 0
-                while @matched_keys.include?(match[i])
+                puts 'Entering while loop'
+                while @matched_keys.include?(match[i]) && i < match.length
                     i += 1
                 end
-                pair_value = match[i]
-                @current_pair = pair_value
-                return @matched_cards[pair_value][0]
+                puts 'Exited while loop'
+                @current_pair = match[i]
+                #puts @matched_cards[@current_pair][0]
+                return @matched_cards[@current_pair][0]
             else
                 puts "case 2: first guess no matched cards detected"
                 return self.get_new_position
@@ -42,8 +44,11 @@ class ComputerPlayer
         else
             if @current_pair != nil
                 puts "case 3: guessing second matched card"
-                @matched_keys << pair_value
-                return @matched_cards[pair_value][1]
+                #puts @matched_cards[@cu]
+                @matched_keys << @current_pair
+                temp = @matched_cards[@current_pair][1]
+                @current_pair = nil
+                return temp
             else
                 puts "case 4: second random guess"
                 return self.get_new_position
@@ -54,9 +59,20 @@ class ComputerPlayer
     def get_new_position
         row = rand(0...4)
         col = rand(0...4)
-        while @known_cards.has_value?([row, col])
-            row = rand(0...4)
-            col = rand(0...4)
+        valid = false
+
+        while !valid
+            valid = true
+            @known_cards.each_key do |key|
+                @known_cards[key].each do |pos|
+                    if pos == [row, col]
+                        valid = false
+                        row = rand(0...4)
+                        col = rand(0...4)
+                    end
+                end
+            end
+            
         end
         return [row, col]
     end

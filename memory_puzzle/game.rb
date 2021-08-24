@@ -38,7 +38,7 @@ class Game
             end
             @previous_guess = nil
         end
-        sleep(3)
+        sleep(1)
     end
 
     def gameover?
